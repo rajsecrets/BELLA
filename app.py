@@ -18,22 +18,25 @@ from datetime import datetime
 from langchain.memory import ConversationBufferMemory
 from langchain.chains import ConversationChain
 from langchain_community.llms import OpenAI
+import streamlit as st
 
 # Load environment variables
 load_dotenv()
 
 # Configure logging
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
-# Configuration
-GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
-if not GEMINI_API_KEY:
-    raise ValueError("GEMINI_API_KEY environment variable is not set")
+# Access secrets
+GEMINI_API_KEY = st.secrets["GEMINI_API_KEY"]
+SERP_API_KEY = st.secrets["SERP_API_KEY"]
 
-SERP_API_KEY = os.getenv("SERP_API_KEY")
+# Configuration
+if not GEMINI_API_KEY:
+    raise ValueError("GEMINI_API_KEY secret is not set")
+
 if not SERP_API_KEY:
-    raise ValueError("SERP_API_KEY environment variable is not set")
+    raise ValueError("SERP_API_KEY secret is not set")
 
 GEMINI_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent"
 ALLOWED_EXTENSIONS = {'.pdf', '.jpg', '.jpeg', '.png', '.txt'}

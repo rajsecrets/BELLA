@@ -353,4 +353,4 @@ async def end():
 
 
 if __name__ == "__main__":
-    cl.run()
+    cl.run(app)
